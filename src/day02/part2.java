@@ -17,9 +17,9 @@ public class part2 {
                 List<Integer> test = new ArrayList<Integer>(list);
                 test.set(1, i);
                 test.set(2, j);
-                IntcodeManager managee = new IntcodeManager(test);
+                IntcodeManager manager = new IntcodeManager(test);
                 try{
-                    managee.play();
+                    manager.play();
                 }catch(Exception e){
                     System.out.println(e + ", ending program");
                     return;
