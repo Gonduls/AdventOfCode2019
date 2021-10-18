@@ -1,7 +1,5 @@
 package day04;
 
-import java.util.List;
-
 public class part2 {
     public static void main(String[] args) {
         int result = 0;
