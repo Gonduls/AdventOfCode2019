@@ -17,17 +17,26 @@ public class ReadF {
      * @return returns integer list through an arraylist
      * @throws Exception for file problems
      */
-    static @NotNull List<Integer> readInCommas(String input) throws Exception{
+    public static @NotNull List<Integer> readInCommas(String input) throws Exception{
         List<Integer> list = new ArrayList<Integer>();
         char c;
         int i = 0;
+        boolean negative = false;
         FileReader fr = new FileReader(input);
         do{
             c = (char) fr.read();
             if(c == ',' || c == '\n'){
                 //System.out.println(i);
+                if(negative){
+                    i = - i;
+                    negative = false;
+                }
                 list.add(i);
                 i = 0;
+                continue;
+            }
+            if(c == '-') {
+                negative = true;
                 continue;
             }
             i = i*10 + c - '0';
