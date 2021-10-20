@@ -4,9 +4,9 @@ import java.util.List;
 
 public class IntcodeManager {
 
-    private int index = 0;
-    private List<Integer> intcode;
-    private int endCondition = 99;
+    protected int index = 0;
+    protected List<Integer> intcode;
+    protected int endCondition = 99;
 
     public IntcodeManager(List<Integer> list){
         intcode = list;
