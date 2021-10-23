@@ -7,7 +7,7 @@ public class part2 {
     public static void main(String[] args) {
         List<Integer> list;
         try {
-            list = ReadF.readInCommas("AdventOfCode2019/src/day02/input.txt");
+            list = ReadF.readInCommas("src/day02/input.txt");
         }catch(Exception e){
             System.out.println("input problems, ending program");
             return;

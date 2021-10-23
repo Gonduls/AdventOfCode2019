@@ -9,12 +9,15 @@ public class part1 {
         List<String> input;
         HashMap<String, List<String>> orbits = new HashMap<>();
         List<Planet> planets = new LinkedList<>();
+
         try{
-            input = ReadStrings.readLines("AdventOfCode2019/src/day06/input.txt");
+            input = ReadStrings.readLines("src/day06/input.txt");
         }catch(Exception e){
             System.out.println("input problems, ending program");
             return;
         }
+
+        // Populating hashmap
         for(String s : input){
             if(orbits.containsKey(s.substring(0,3))) {
                 orbits.get(s.substring(0, 3)).add(s.substring(4));
@@ -24,15 +27,22 @@ public class part1 {
             a.add(s.substring(4));
             orbits.put(s.substring(0, 3), a);
         }
+
+        // result calculated by summation of distances from every planet to COM, by using a list as a queue
         int result = 0;
-        planets.add(new Planet("COM", 0));
+        planets.add(new Planet("COM", 0)); // initializing queue
+
         while(!planets.isEmpty()){
+            // Pop first element
             Planet planet = planets.get(0);
             planets.remove(0);
-            result += planet.getLevel();
+
+            result += planet.getDistance(); // sum distance to COM to result
+
+            // add planets orbiting current planet at the end of the queue
             if(orbits.containsKey(planet.getName())) {
                 for (String s : orbits.get(planet.getName())) {
-                    planets.add(new Planet(s, planet.getLevel() + 1));
+                    planets.add(new Planet(s, planet.getDistance() + 1));
                 }
             }
         }
@@ -42,16 +52,16 @@ public class part1 {
 }
 
 class Planet{
-    int level;
+    int distance;
     String name;
 
-    Planet(String name, int level){
+    Planet(String name, int distance){
         this.name = name;
-        this.level = level;
+        this.distance = distance;
     }
 
-    public int getLevel() {
-        return level;
+    public int getDistance() {
+        return distance;
     }
 
     public String getName() {

@@ -8,7 +8,7 @@ public class part2 {
     public static void main(String[] args) {
         int result = 0;
         try {
-            File input = new File("AdventOfCode2019/src/day01/input.txt");
+            File input = new File("src/day01/input.txt");
             Scanner scanner = new Scanner(input);
             while(scanner.hasNextInt()){
                 //System.out.println( scanner.nextInt());

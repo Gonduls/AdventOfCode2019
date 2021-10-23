@@ -7,7 +7,6 @@ import java.util.List;
 public class Count extends Thread{
     String planet;
     final HashMap<String, List<String>> orbits;
-    private int number = 0;
     private final int index;
     private SharedSingular father, son;
 
@@ -28,100 +27,113 @@ public class Count extends Thread{
      * -when more planets are orbiting the current one:
      *      make a new thread for every planet doing so
      * -if SAN or YOU are found:
-     *      set the found variable to true, "return" through the shared classes the planets passed to get to SAN or YOU
+     *      set found variables to true, "return" through the shared classes the planets passed to get to SAN or YOU
      * -else if end of planets is found or if SAN or YOU have already been found:
-     *      "return" 0 through the shared classes, join threads, repeat
+     *      "return" -1 through the shared classes, join threads, repeat
      */
     @Override
     public void run(){
-        if(SharedTotal.Exit())
+        if(SharedTotal.Exit()) {
+            father.answers[index] = -1;
             return;
+        }
 
-        //System.out.println("While " + planet);
-
+        // as long as there is a row of single planets: follow it until SAN|YOU|more than 1 planet|no planets  are found
         while(orbits.containsKey(planet) && orbits.get(planet).size() == 1){
-            //System.out.println("While " + planet);
+
             if(orbits.get(planet).get(0).equals("SAN")){
                 father.FoundSAN = true;
                 SharedTotal.FoundSAN = true;
-                //System.out.println("4\tSan = " + son.FoundSAN + "\tYOU = " + son.FoundYOU);
                 return;
             }
             if(orbits.get(planet).get(0).equals("YOU")){
                 father.FoundYOU = true;
                 SharedTotal.FoundYOU = true;
-                //System.out.println("3\tSan = " + son.FoundSAN + "\tYOU = " + son.FoundYOU);
                 return;
             }
 
             father.answers[index] ++;
+            planet = orbits.get(planet).get(0);
 
-            if(orbits.containsKey(planet))
-                planet = orbits.get(planet).get(0);
-            else{
-                father.answers[index] = 0;
-                return;
-            }
         }
 
+        // end of the line not finding SAN or YOU
         if(orbits.containsKey(planet) == false) {
-            father.answers[index] = 0;
+            father.answers[index] = -1;
             return;
         }
 
+        // if other threads already succeeded just exit
         if(SharedTotal.Exit()){
-            father.answers[index] = 0;
+            father.answers[index] = -1;
             return;
         }
+
         if(orbits.get(planet).contains("SAN")){
             father.FoundSAN = true;
             SharedTotal.FoundSAN = true;
-            //System.out.println("2\tSan = " + son.FoundSAN + "\tYOU = " + son.FoundYOU);
             return;
         }
         if(orbits.get(planet).contains("YOU")){
             father.FoundYOU = true;
             SharedTotal.FoundYOU = true;
-            //System.out.println("1\tSan = " + son.FoundSAN + "\tYOU = " + son.FoundYOU);
             return;
         }
 
         //initializing new threads
-        Count[] sons = new Count[orbits.get(planet).size()];
-        SharedSingular son = new SharedSingular(orbits.get(planet).size());
+        Count[] sons = new Count[orbits.get(planet).size()]; //threads variables
+        son = new SharedSingular(orbits.get(planet).size()); //shared variable
         int i;
+
         for(i = 0; i< orbits.get(planet).size(); i ++){
             sons[i] = new Count(orbits, orbits.get(planet).get(i), i, son);
-            sons[i].run();
+            son.answers[i] = 0;
+            sons[i].start();
         }
 
+
         //collecting threads
-        for(i = 0; i< orbits.get(planet).size(); i ++){
-            try{
+        for(i = 0; i< orbits.get(planet).size(); i ++) {
+            try {
                 sons[i].join();
-            }catch(InterruptedException e){
+
+                // propagating found results
+                if (son.FoundYOU)
+                    father.FoundYOU = true;
+                if (son.FoundSAN)
+                    father.FoundSAN = true;
+
+            }
+            catch (InterruptedException e) {
                 System.out.println("Error in joining threads\n" + e);
                 return;
             }
-            if(son.answers[i] != 0) {
-                father.FoundYOU = son.FoundYOU;
-                father.FoundSAN = son.FoundSAN;
-                father.answers[index] += son.answers[i] + 1;
-                System.out.println("Planet " + planet + " dists " + son.answers[i] + " to:");
-                System.out.println("\tSan = " + son.FoundSAN + "\tYOU = " + son.FoundYOU);
-            }
-        }
-        if(son.Exit())
-            SharedTotal.answer = Arrays.stream(son.answers).sum();
 
-        if(Arrays.stream(son.answers).sum() == 0)
-            father.answers[index] = 0;
+            if (son.answers[i] != -1)
+                father.answers[index] += son.answers[i] + 1;
+        }
+
+        // if this planet is the "last common ancestor": add up the distances to SAN and YOU and get the result
+        if(son.Exit()) {
+            SharedTotal.answer = Arrays.stream(son.answers).sum() + 2; // adds all elements in an array
+            // prevent from propagating the Found = true result to father (it would overwrite the result)
+            father.FoundYOU = false;
+            father.FoundSAN = false;
+            father.answers[index] = -1;
+            return;
+        }
+
+        // if this planet only leads to dead ends: "return" -1
+        if(!son.FoundSAN && !son.FoundYOU)
+            father.answers[index] = -1;
 
         return;
-
     }
 }
 
+/**
+ * Class shared between all threads, holds answer and return conditions
+ */
 class SharedTotal{
     static int answer = 0;
     static boolean FoundSAN = false;
@@ -132,6 +144,9 @@ class SharedTotal{
     }
 }
 
+/**
+ * Class only shared between a thread and its sons, needed to propagate found results and return conditions
+ */
 class SharedSingular{
     int[] answers;
     boolean FoundSAN = false;

@@ -17,7 +17,7 @@ public class part1 {
 
         FileReader fr;
         try{
-            fr = new FileReader("AdventOfCode2019/src/day03/input.txt");
+            fr = new FileReader("src/day03/input.txt");
             inputA = ReadDirections.readStringsInCommas(fr);
             inputB = ReadDirections.readStringsInCommas(fr);
             fr.close();

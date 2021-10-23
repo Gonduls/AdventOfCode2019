@@ -10,7 +10,7 @@ public class part1 {
         IntcodeManager2 manager;
 
         try{
-            input = readInCommas("AdventOfCode2019/src/day05/input.txt");
+            input = readInCommas("src/day05/input.txt");
         }catch (Exception e){
             System.out.println("input problems, ending program");
             return;
