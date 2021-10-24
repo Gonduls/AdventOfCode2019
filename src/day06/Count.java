@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Count extends Thread{
-    String planet;
+    String planet;           // current examined planet
     final HashMap<String, List<String>> orbits;
-    private final int index;
-    private SharedSingular father, son;
+    private final int index; // needed to write found length anwer in correct position of father shared singular
+    private SharedSingular father, son;// needed to propagate found answers
 
     public Count(HashMap<String, List<String>> orbits){
         this(orbits, "COM", 0, new SharedSingular(1));
@@ -145,7 +145,8 @@ class SharedTotal{
 }
 
 /**
- * Class only shared between a thread and its sons, needed to propagate found results and return conditions
+ * Class only shared between a thread and its sons, 
+ * needed to propagate found results and return conditions
  */
 class SharedSingular{
     int[] answers;
