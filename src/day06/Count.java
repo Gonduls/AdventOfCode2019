@@ -7,8 +7,8 @@ import java.util.List;
 public class Count extends Thread{
     String planet;           // current examined planet
     final HashMap<String, List<String>> orbits;
-    private final int index; // needed to write found length anwer in correct position of father shared singular
-    private SharedSingular father, son;// needed to propagate found answers
+    private final int index; // needed to write found length answer in correct position of father shared singular
+    private final SharedSingular father; // needed to propagate found answers
 
     public Count(HashMap<String, List<String>> orbits){
         this(orbits, "COM", 0, new SharedSingular(1));
@@ -58,7 +58,7 @@ public class Count extends Thread{
         }
 
         // end of the line not finding SAN or YOU
-        if(orbits.containsKey(planet) == false) {
+        if(!orbits.containsKey(planet)) {
             father.answers[index] = -1;
             return;
         }
@@ -82,7 +82,7 @@ public class Count extends Thread{
 
         //initializing new threads
         Count[] sons = new Count[orbits.get(planet).size()]; //threads variables
-        son = new SharedSingular(orbits.get(planet).size()); //shared variable
+        SharedSingular son = new SharedSingular(orbits.get(planet).size()); //shared variable
         int i;
 
         for(i = 0; i< orbits.get(planet).size(); i ++){
@@ -127,7 +127,6 @@ public class Count extends Thread{
         if(!son.FoundSAN && !son.FoundYOU)
             father.answers[index] = -1;
 
-        return;
     }
 }
 

@@ -14,7 +14,7 @@ public class part2 {
         }
         for (int i = 0; i< 100; i++){
             for (int j = 0; j< 100; j++){
-                List<Integer> test = new ArrayList<Integer>(list);
+                List<Integer> test = new ArrayList<>(list);
                 test.set(1, i);
                 test.set(2, j);
                 IntcodeManager manager = new IntcodeManager(test);

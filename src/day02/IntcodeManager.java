@@ -10,7 +10,7 @@ public class IntcodeManager {
 
     public IntcodeManager(List<Integer> list){
         intcode = list;
-    };
+    }
     public IntcodeManager(List<Integer> list, int index){
         intcode = list;
         this.index = index;

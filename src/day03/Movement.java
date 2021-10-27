@@ -11,7 +11,7 @@ public class Movement {
 
     /**
      * Translates input string to direction (coefficients) and amount of movement
-     * @param string
+     * @param string input
      */
     public Movement(@NotNull String string){
         amount = Integer.parseInt(string.substring(1));
@@ -24,7 +24,7 @@ public class Movement {
      * @return list of touched 2D points
      */
     public List<Point2D> apply(Point2D start){
-        List<Point2D> list = new ArrayList<Point2D>();
+        List<Point2D> list = new ArrayList<>();
         for(int i=1; i< amount + 1; i++){
             int x = start.getX() + i*coefficients[0];
             int y = start.getY() + i*coefficients[1];

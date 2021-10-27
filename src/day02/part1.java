@@ -24,8 +24,6 @@ public class part1 {
 
         System.out.println("Result = " + list.get(0));
 
-        return;
-
 
     }
 }

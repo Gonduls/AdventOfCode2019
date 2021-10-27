@@ -9,9 +9,9 @@ public class part1 {
     public static void main(String[] args) {
         List<String> inputA;
         List<String> inputB;
-        List<Movement> movementsA = new ArrayList<Movement>();
-        List<Movement> movementsB = new ArrayList<Movement>();
-        HashSet<Point2D> pointsA = new HashSet<Point2D>();
+        List<Movement> movementsA = new ArrayList<>();
+        List<Movement> movementsB = new ArrayList<>();
+        HashSet<Point2D> pointsA = new HashSet<>();
         Point2D origin = new Point2D(0, 0);
         int minDistance = Integer.MAX_VALUE;
 
@@ -26,8 +26,8 @@ public class part1 {
             return;
         }
 
-        /**
-         * converts input Strings to movement class
+        /*
+          converts input Strings to movement class
          */
         for(String s : inputA){
             movementsA.add(new Movement(s));
@@ -36,8 +36,8 @@ public class part1 {
             movementsB.add(new Movement(s));
         }
 
-        /**
-         * creates lists of points then converted to hashset in pointsA
+        /*
+          creates lists of points then converted to hashset in pointsA
          */
         Point2D start = origin;
         for (Movement move : movementsA){
@@ -46,8 +46,8 @@ public class part1 {
             pointsA.addAll(points);
         }
 
-        /**
-         * finds the lowest manhattan distance intersection point between wires A and B
+        /*
+          finds the lowest manhattan distance intersection point between wires A and B
          */
         start = origin;
         for (Movement move: movementsB){
@@ -61,6 +61,5 @@ public class part1 {
         }
 
         System.out.println("Result = " + minDistance);
-        return;
     }
 }

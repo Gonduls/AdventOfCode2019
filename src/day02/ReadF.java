@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.FileReader;
 
 /**
  * Gives lists of input numbers
@@ -18,7 +17,7 @@ public class ReadF {
      * @throws Exception for file problems
      */
     public static @NotNull List<Integer> readInCommas(String input) throws Exception{
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         char c;
         int i = 0;
         boolean negative = false;

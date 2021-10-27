@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ReadStrings {
     static List<String> readLines(String input) throws Exception{
-        List<String> list = new LinkedList<String>();
+        List<String> list = new LinkedList<>();
         File file = new File(input);
         Scanner scanner = new Scanner(file);
         while(scanner.hasNextLine()) {

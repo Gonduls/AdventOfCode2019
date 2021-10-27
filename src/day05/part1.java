@@ -4,6 +4,9 @@ import java.util.List;
 
 import static day02.ReadF.readInCommas;
 
+/*
+    For actual part 1 give 1 as input, for actual part 2 give 5 as input
+ */
 public class part1 {
     public static void main(String[] args) {
         List<Integer> input;
@@ -21,7 +24,6 @@ public class part1 {
             manager.play();
         }catch(Exception e){
             System.out.println(e + ", ending program.");
-            return;
         }
 
     }

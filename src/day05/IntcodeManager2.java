@@ -1,6 +1,5 @@
 package day05;
 
-import day02.Rules;
 import day02.UnknownOpcodeException;
 
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 public class IntcodeManager2 extends day02.IntcodeManager{
     public IntcodeManager2(List<Integer> list){
         super(list);
-    };
+    }
     public IntcodeManager2(List<Integer> list, int index){
         super(list, index);
     }

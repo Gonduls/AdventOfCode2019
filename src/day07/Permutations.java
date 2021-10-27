@@ -39,11 +39,11 @@ class Permutations implements Iterable<int[]> {
         @Override
         public boolean hasNext(){
             if(len == 2)
-                return (index < 2 ? true : false);
+                return (index < 2);
 
             // if index has reached last value and sub permutations are done:
             // this level of permutation is done as well
-            return((itr.hasNext() == false && index == len - 1) ? false : true);
+            return(itr.hasNext() || index != len - 1);
         }
 
         @Override
@@ -54,18 +54,16 @@ class Permutations implements Iterable<int[]> {
                 return (index <2 ? startArray : new int[]  {startArray[1], startArray[0]});
             }
 
-            if(itr.hasNext() == false && index == len - 1)
+            if(!itr.hasNext() && index == len - 1)
                 throw new NoSuchElementException("No next element");
 
             // sub permutations are done:
             // change index and create new sub permutations with all values in startArray except startArray[index]
-            if (itr.hasNext() == false){
+            if (!itr.hasNext()){
                 index++;
                 int[] toPass = new int[len - 1];
-                for (int i = 0; i<index; i++)
-                    toPass[i] = startArray[i];
-                for (int i = index + 1; i<len; i++)
-                    toPass[i-1] = startArray[i];
+                System.arraycopy(startArray, 0, toPass, 0, index);
+                System.arraycopy(startArray, index + 1, toPass, index, len - index - 1);
                 subPer = new Permutations(toPass);
                 itr = subPer.iterator();
 
@@ -75,8 +73,7 @@ class Permutations implements Iterable<int[]> {
             int[] passed = itr.next();
             result[0] = startArray[index];
 
-            for(int i = 1; i< len ; i++)
-                result[i] = passed[i-1];
+            System.arraycopy(passed, 0, result, 1, len -1);
 
             return result;
         }

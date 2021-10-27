@@ -15,7 +15,6 @@ public enum Directions {
     }
 
     public int[] getCoeff(){
-        int[] result = {coeffx, coeffy};
-        return result;
+        return new int[] {coeffx, coeffy};
     }
 }

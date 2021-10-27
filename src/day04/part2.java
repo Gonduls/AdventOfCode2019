@@ -4,7 +4,7 @@ public class part2 {
     public static void main(String[] args) {
         int result = 0;
         for(int i = 273025; i < 767253; i++){
-            if(part1.itGrows(i) && isSuitable(i))
+            if(isSuitable(i))
                 result ++;
         }
         System.out.println(result);
@@ -12,6 +12,9 @@ public class part2 {
     }
 
     static boolean isSuitable(int num){
+        if(!part1.itGrows(num))
+            return false;
+
         String s = Integer.toString(num);
         char c = s.charAt(0);
         int counter = 1;
@@ -19,13 +22,11 @@ public class part2 {
             if(counter == 2 && s.charAt(i)!= c)
                 break;
             if(s.charAt(i)!= c) {
-                counter = 0;
+                counter = 0; // should be 1 but is taken care of right after the if statement
                 c = s.charAt(i);
             }
             counter ++;
         }
-        if(counter == 2)
-            return true;
-        return false;
+        return(counter == 2);
     }
 }

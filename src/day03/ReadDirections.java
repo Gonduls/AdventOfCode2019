@@ -11,21 +11,21 @@ public class ReadDirections {
      * reads list of strings divided by commas and ended by '\n' provided an open input stream, does not close input stream
      * @param fr: open FileReader
      * @return List of Strings
-     * @throws Exception
+     * @throws Exception for file problems
      */
     static @NotNull List<String> readStringsInCommas(@NotNull FileReader fr) throws Exception{
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         char c;
-        String s = new String();
+        StringBuilder s = new StringBuilder();
         do{
             c = (char) fr.read();
             if(c == ',' || c == '\n'){
                 //System.out.println(i);
-                list.add(s);
-                s = new String();
+                list.add(s.toString());
+                s = new StringBuilder();
                 continue;
             }
-            s += c;
+            s.append(c);
 
         }
         while ( c != '\n');
